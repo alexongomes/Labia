@@ -280,10 +280,10 @@ Olá eu sou a Assistente Labía. No momento estou respondendo sobre o sistema SI
         const respostaText = document.getElementById("resposta");
         const perguntaText = document.getElementById("pergunta");
 
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-          alert("Seu navegador não suporta gravação de áudio.");
-          return;
-        }
+        //if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        //  alert("Seu navegador não suporta gravação de áudio.");
+        //  return;
+        // }
 
         try {
           const stream = await navigator.mediaDevices.getUserMedia({
