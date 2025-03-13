@@ -120,8 +120,10 @@
                             questões, como de Portugês, utiliza criatividade de IA para criar histórias, frases e contextos na formulação das qestões. -->
               </div>
               <div class="row p-3">
-                <img src={{ url_for('static', path='img/Dall-e-3.png') }}
-                class="thumbnail rounded mx-auto" alt="...">
+                <img data-bs-toggle="modal" data-bs-target="#exampleModal2"
+                style="cursor: pointer" src={{ url_for('static',
+                path='img/Dall-e-3.png') }} class="thumbnail rounded mx-auto"
+                alt="...">
                 <!-- Gerador de imagem: modelo Dall-e-3. -->
                 <!-- utilizando o modelo Dall-e-3. Partindo de um prompt do usuário a imagem é gerada e disponibilizada. Neste
                             recurso foi utilizado o modelo Omni-moderation-latest para moderar o texto digitado. -->
@@ -194,7 +196,9 @@ Olá eu sou o Assistente Labía. No momento estou respondendo sobre o sistema SI
             >
           </div>
           <p class="bg-dark text-light" id="status"></p>
-          <p><strong class="bg-dark d-none text-light"></strong></p>
+          <p class="bg-dark d-none text-light">
+            <strong class="bg-dark d-none text-light"></strong>
+          </p>
           <textarea id="resposta" class="d-none" rows="4" cols="50">
 Olá eu sou a Assistente Labía. No momento estou respondendo sobre o sistema SIMP. Clique no botão Falar e me faça uma pergunta.</textarea
           >
@@ -213,6 +217,59 @@ Olá eu sou a Assistente Labía. No momento estou respondendo sobre o sistema SI
               Falar...
             </button>
             <audio class="d-none" id="audioPlayer" controls></audio>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="exampleModal2"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-dark text-light">
+            <h1
+              class="modal-title bg-dark text-light fs-5"
+              id="exampleModalLabel"
+            >
+              Labia - Gerador de Imagem
+            </h1>
+            <button
+              type="button"
+              class="bg-dark text-light"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              X
+            </button>
+          </div>
+          <label class="bg-dark text-light" for="imagedescription"
+            >Descreva a sua Imagem</label
+          >
+          <div class="modal-body bg-dark text-light">
+            <textarea id="imagedescription" rows="4" cols="50"></textarea>
+          </div>
+
+          <div class="modal-footer bg-dark text-light">
+            <button
+              id="gerar"
+              onclick="gerarImagem()"
+              class="btn btn-secondary"
+            >
+              Gerar Imagem
+            </button>
+            <img id="imagemGerada" src="" width="400px" height="400px" alt="" />
             <button
               type="button"
               class="btn btn-secondary"

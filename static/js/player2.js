@@ -106,3 +106,14 @@ async function textToSpeech() {
     alert("Erro ao gerar áudio.");
   }
 }
+
+async function gerarImagem(params) {
+  let descricao = document.getElementById("imagedescription").value;
+  let resposta = await fetch("/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: "descricao=" + encodeURIComponent(descricao),
+  });
+  let dados = await resposta.json();
+  document.getElementById("imagemGerada").src = dados.url;
+}
