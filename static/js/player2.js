@@ -1,8 +1,21 @@
+const textAreas = [
+  document.getElementById("pergunta"),
+  document.getElementById("resposta")
+];
+
+textAreas.forEach(textArea => {
+  textArea.addEventListener("input", function () {
+    console.log("O valor do textarea foi alterado para:", textArea.value);
+    if (textArea.id === "pergunta") {
+      resposta();
+    } else if (textArea.id === "resposta") {
+      textToSpeech();
+    }
+  });
+});
+
 async function iniciaGravacao() {
   const status = document.getElementById("status");
-  const respostaText = document.getElementById("resposta");
-  const perguntaText = document.getElementById("pergunta");
-
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
     alert("Seu navegador não suporta gravação de áudio.");
     return;
@@ -41,10 +54,18 @@ async function iniciaGravacao() {
         }
 
         const data = await response.json();
-        perguntaText.value = data.text || "Erro na transcrição";
+        const perguntaTextarea = document.getElementById("pergunta");
+
+        // Altera o valor do textarea "pergunta"
+        perguntaTextarea.value = data.text || "Erro na transcrição";
+
+        // Dispara o evento "input" após a alteração
+        perguntaTextarea.dispatchEvent(new Event("input"));
       } catch (error) {
         console.error("Erro na requisição: ", error);
-        perguntaText.value = "Erro ao processar áudio";
+        const perguntaTextarea = document.getElementById("pergunta");
+        perguntaTextarea.value = "Erro ao processar áudio";
+        perguntaTextarea.dispatchEvent(new Event("input"));
       }
     };
 
@@ -59,14 +80,12 @@ async function iniciaGravacao() {
     console.error("Erro ao acessar o microfone: ", error);
     alert("Erro ao acessar o microfone. Verifique as permissões do navegador.");
   }
-
-  setTimeout(resposta, 12000);
 }
+
 
 async function resposta() {
   try {
     const message = document.getElementById("pergunta").value;
-    console.log(document.getElementById("pergunta").value);
     const response2 = await fetch("/api/text/resposta", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -79,16 +98,23 @@ async function resposta() {
     }
 
     const data2 = await response2.text();
-    document.getElementById("resposta").value =
-      (await data2) || "Erro na resposta";
+    
+    // Modifica o valor do textarea "resposta"
+    const respostaTextarea = document.getElementById("resposta");
+    respostaTextarea.value = data2 || "Erro na resposta";
+
+    // Dispara o evento "input" após a alteração
+    respostaTextarea.dispatchEvent(new Event("input"));
+
   } catch (error) {
     console.error("Erro:", error.message);
     alert("Erro: " + error.message);
   }
-
-  status.innerText = "Transcrição concluída";
-  await textToSpeech();
 }
+
+
+
+
 async function textToSpeech() {
   const text = document.getElementById("resposta").value;
   const response = await fetch("/speak", {
